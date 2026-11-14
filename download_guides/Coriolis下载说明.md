@@ -4,7 +4,7 @@
 
 ## 下载内容和保存位置
 
-- 脚本：`F:\AAAzxz\SRTP_M\data_dl\download_argo_coriolis.py`。
+- 脚本：`F:\AAAzxz\SRTP_M\data_dl\dl_argo\download_argo_coriolis.py`。
 - 默认清单：`F:\AAAzxz\SRTP_M\data_dl\research\audits\argo_fast_20261112_120214\missing_files.csv`，含 23,466 个 Coriolis Core 单剖面路径。
 - 来源：`https://data-argo.ifremer.fr/dac/`，每个请求只拼接清单中的相对路径。
 - 保存位置：`F:\AAAzxz\SRTP_M\data_dl\data\raw\argo\coriolis\<浮标编号>\profiles\*.nc`。
@@ -15,7 +15,7 @@
 在 PowerShell 中执行以下命令；使用绝对路径，不要求先切换目录：
 
 ```powershell
-& 'F:\AAAzxz\SRTP_M\data_dl\.venv-data\Scripts\python.exe' 'F:\AAAzxz\SRTP_M\data_dl\download_argo_coriolis.py'
+& 'F:\AAAzxz\SRTP_M\data_dl\.venv-data\Scripts\python.exe' 'F:\AAAzxz\SRTP_M\data_dl\dl_argo\download_argo_coriolis.py'
 ```
 
 默认 4 个并发连接，每个文件最多尝试 3 次，读取超时 30 秒。项目环境已有 requests，无需另装依赖。
@@ -23,7 +23,7 @@
 如果想先下载 10 份看看速度：
 
 ```powershell
-& 'F:\AAAzxz\SRTP_M\data_dl\.venv-data\Scripts\python.exe' 'F:\AAAzxz\SRTP_M\data_dl\download_argo_coriolis.py' --limit 10
+& 'F:\AAAzxz\SRTP_M\data_dl\.venv-data\Scripts\python.exe' 'F:\AAAzxz\SRTP_M\data_dl\dl_argo\download_argo_coriolis.py' --limit 10
 ```
 
 之后运行不带 `--limit` 的命令即可继续其余文件。`--limit` 限制的是本次尚未落盘的文件数，重复运行会继续选择下一批。
@@ -31,7 +31,7 @@
 仅查看数量、不联网、不写文件：
 
 ```powershell
-& 'F:\AAAzxz\SRTP_M\data_dl\.venv-data\Scripts\python.exe' 'F:\AAAzxz\SRTP_M\data_dl\download_argo_coriolis.py' --dry-run
+& 'F:\AAAzxz\SRTP_M\data_dl\.venv-data\Scripts\python.exe' 'F:\AAAzxz\SRTP_M\data_dl\dl_argo\download_argo_coriolis.py' --dry-run
 ```
 
 ## 暂停、恢复和结果

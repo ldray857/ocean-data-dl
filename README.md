@@ -28,18 +28,23 @@
 
 ## 代码索引
 
+脚本按数据类型放在 `dl_adt/`、`dl_oisst/`、`dl_argo/`、`dl_cora/` 中；Argo 的下载、提取和校验脚本集中在 `dl_argo/`。
+
+数据、日志和清单路径仍以仓库根目录为基准，继续使用原来的 `data/`、`logs/` 和 `research/`。从子目录运行脚本也不会改变默认保存位置。原下载命令只需在脚本名前加对应文件夹，其他参数保持不变。
+
 | 文件 | 用途 |
 |---|---|
-| `download_adt.py` | 下载与校验DUACS ADT，固定数据集版本 `202411` |
-| `download_oisst.py` | 下载与校验NOAA OISST v2.1 AVHRR最终版 |
-| `download_argo_coriolis.py` | 根据 `file` 列缺失清单下载Coriolis Core单剖面，跳过已有非空文件 |
-| `audit_argo_archives.py` | 检查国内Argo压缩包完整性、冻结清单覆盖及少量样本 |
-| `extract_argo_fast.py` | 从AOML压缩包按冻结清单快速提取，跳过已有正式文件，不解析NetCDF或计算哈希 |
-| `extract_argo_archives.py` | 按资料中心选择性提取，检查字段、记录哈希并支持恢复 |
-| `verify_argo_files.py` | 根据完整提取清单核对落盘文件大小和SHA-256 |
-| `finalize_argo_inventory.py` | 汇总已有完整提取清单并复核历史格式问题 |
-| `validate_argo.py` | 只读检查NetCDF3/4可读性、元数据和QC，生成逐文件诊断 |
-| `report_argo_validation.py` | 从完整校验结果生成中文报告和分类清单 |
+| `dl_cora/download_cora_sample.py` | 下载固定 `202603` 版本、2018年1月的CORA温盐原始场小样本 |
+| `dl_adt/download_adt.py` | 下载与校验DUACS ADT，固定数据集版本 `202411` |
+| `dl_oisst/download_oisst.py` | 下载与校验NOAA OISST v2.1 AVHRR最终版 |
+| `dl_argo/download_argo_coriolis.py` | 根据 `file` 列缺失清单下载Coriolis Core单剖面，跳过已有非空文件 |
+| `dl_argo/audit_argo_archives.py` | 检查国内Argo压缩包完整性、冻结清单覆盖及少量样本 |
+| `dl_argo/extract_argo_fast.py` | 从AOML压缩包按冻结清单快速提取，跳过已有正式文件，不解析NetCDF或计算哈希 |
+| `dl_argo/extract_argo_archives.py` | 按资料中心选择性提取，检查字段、记录哈希并支持恢复 |
+| `dl_argo/verify_argo_files.py` | 根据完整提取清单核对落盘文件大小和SHA-256 |
+| `dl_argo/finalize_argo_inventory.py` | 汇总已有完整提取清单并复核历史格式问题 |
+| `dl_argo/validate_argo.py` | 只读检查NetCDF3/4可读性、元数据和QC，生成逐文件诊断 |
+| `dl_argo/report_argo_validation.py` | 从完整校验结果生成中文报告和分类清单 |
 
 ## 下载教程
 
@@ -73,7 +78,7 @@ py -3.14 -m venv .venv-data
 预览一个月的下载计划，不联网、不下载：
 
 ```powershell
-& '.\.venv-data\Scripts\python.exe' '.\download_adt.py' --start 200501 --end 200501 --plan
+& '.\.venv-data\Scripts\python.exe' '.\dl_adt\download_adt.py' --start 200501 --end 200501 --plan
 ```
 
 下载时去掉 `--plan`。结果保存到 `data/raw/adt/`，每月west/east两份文件。
@@ -83,7 +88,7 @@ py -3.14 -m venv .venv-data
 预览一个月的下载计划：
 
 ```powershell
-& '.\.venv-data\Scripts\python.exe' '.\download_oisst.py' --start 200501 --end 200501 --source google --plan
+& '.\.venv-data\Scripts\python.exe' '.\dl_oisst\download_oisst.py' --start 200501 --end 200501 --source google --plan
 ```
 
 下载时去掉 `--plan`。结果按月份保存到 `data/raw/oisst/YYYYMM/`。可通过 `--source ncei` 或 `--source aws` 选择其他已配置下载源。
@@ -95,20 +100,20 @@ Argo流程依赖已经冻结的本地候选清单和审计记录，这些运行�
 缺失清单至少包含 `file` 列，路径形如 `coriolis/<WMO>/profiles/<文件名>.nc`。可显式指定清单，先预览数量：
 
 ```powershell
-& '.\.venv-data\Scripts\python.exe' '.\download_argo_coriolis.py' --manifest '.\research\audits\missing_files.csv' --dry-run
+& '.\.venv-data\Scripts\python.exe' '.\dl_argo\download_argo_coriolis.py' --manifest '.\research\audits\missing_files.csv' --dry-run
 ```
 
 去掉 `--dry-run` 开始下载；`--limit 10` 限制本次最多下载10个尚未落盘的文件。默认4并发，完成的文件直接跳过；未完成的 `.part` 文件下次从头下载。结果保存到 `data/raw/argo/coriolis/`。
 
-国内包流程仍使用本机路径：`audit_argo_archives.py` 的 `DOWNLOADS` 默认指向 `D:\system\Downloads`；`extract_argo_fast.py` 的 `SOURCE` 指向其中的 `aoml.tar.gz`。迁移时修改这些配置常量，并准备 `INVENTORY` 指向的冻结清单。不要在没有本地清单、原包或完整提取记录的情况下直接执行这些脚本。
+国内包流程仍使用本机路径：`dl_argo/audit_argo_archives.py` 的 `DOWNLOADS` 默认指向 `D:\system\Downloads`；`dl_argo/extract_argo_fast.py` 的 `SOURCE` 指向其中的 `aoml.tar.gz`。迁移时修改这些配置常量，并准备 `INVENTORY` 指向的冻结清单。不要在没有本地清单、原包或完整提取记录的情况下直接执行这些脚本。
 
 全量只读校验可显式指定冻结索引清单。该清单需要包含 `file,date,latitude,longitude,ocean,profiler_type,institution,date_update` 列：
 
 ```powershell
-& '.\.venv-data\Scripts\python.exe' '.\validate_argo.py' --inventory '.\research\audits\argo_inventory.csv' --raw '.\data\raw\argo' --workers 4
+& '.\.venv-data\Scripts\python.exe' '.\dl_argo\validate_argo.py' --inventory '.\research\audits\argo_inventory.csv' --raw '.\data\raw\argo' --workers 4
 ```
 
-校验报告写入 `research/audits/argo_validation_<时间戳>/`。再将实际生成的报告目录传给 `report_argo_validation.py`，生成中文汇总。
+校验报告写入 `research/audits/argo_validation_<时间戳>/`。再将实际生成的报告目录传给 `dl_argo/report_argo_validation.py`，生成中文汇总。
 
 Argo不同脚本的检查强度不同：快速提取和Coriolis下载不做科学质控；完整提取可以记录哈希；全量校验提供QC诊断统计。文件齐全、可读或包含QC1/2配对点，都不等于整条剖面已经满足最终研究筛选规则。当前代码未完成5—500 m深度标准化或月平均。
 

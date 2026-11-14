@@ -14,7 +14,7 @@ from urllib.request import Request, urlopen
 import numpy as np
 import xarray as xr
 
-BASE_DIR = Path(__file__).resolve().parent
+BASE_DIR = Path(__file__).resolve().parents[1]
 OUTPUT_DIR = BASE_DIR / "data" / "raw" / "oisst"
 SOURCE_URLS = {
     "google": (

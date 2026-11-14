@@ -22,7 +22,7 @@ from zoneinfo import ZoneInfo
 
 import requests
 
-ROOT = Path(__file__).resolve().parent
+ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_MANIFEST = ROOT / "research/audits/argo_fast_20261112_120214/missing_files.csv"
 DEFAULT_OUTPUT = ROOT / "data/raw/argo"
 BASE_URL = "https://data-argo.ifremer.fr/dac/"

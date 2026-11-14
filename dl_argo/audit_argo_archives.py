@@ -14,7 +14,7 @@ from pathlib import Path, PurePosixPath
 import numpy as np
 import xarray as xr
 
-BASE_DIR = Path(__file__).resolve().parent
+BASE_DIR = Path(__file__).resolve().parents[1]
 INVENTORY = BASE_DIR / "research/audits/argo_inventory_20261111_211915.csv"
 DOWNLOADS = Path(r"D:\system\Downloads")
 DACS = ("kiost", "kma", "csio", "meds", "bodc", "jma", "csiro", "aoml")

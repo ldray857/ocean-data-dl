@@ -1,6 +1,6 @@
 # OISST Google Cloud 下载说明
 
-- 脚本：`F:\AAAzxz\SRTP_M\data_dl\download_oisst.py`。
+- 脚本：`F:\AAAzxz\SRTP_M\data_dl\dl_oisst\download_oisst.py`。
 - 新增 `--source google`；原 NCEI 源保留为 `--source ncei`，不指定时仍使用 NCEI。
 - Google Cloud 地址：`https://storage.googleapis.com/noaa-cdr-sea-surface-temp-optimum-interpolation/data/v2.1/avhrr/`。
 - AWS 区域入口：`https://noaa-cdr-sea-surface-temp-optimum-interpolation-pds.s3.us-east-1.amazonaws.com/data/v2.1/avhrr/`，使用 `--fallback-source aws` 启用。
@@ -13,7 +13,7 @@
 续传命令（2010 年 11 月至 2025 年 6 月，Google 优先，404 时用 AWS）：
 
 ```powershell
-& 'F:\AAAzxz\SRTP_M\data_dl\.venv-data\Scripts\python.exe' 'F:\AAAzxz\SRTP_M\data_dl\download_oisst.py' --source google --fallback-source aws --start 201206 --end 202506
+& 'F:\AAAzxz\SRTP_M\data_dl\.venv-data\Scripts\python.exe' 'F:\AAAzxz\SRTP_M\data_dl\dl_oisst\download_oisst.py' --source google --fallback-source aws --start 201905 --end 202506
 ```
 
 同时只运行一个 OISST 下载任务。若后台任务已启动，不要再次执行此命令。

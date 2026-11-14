@@ -1,6 +1,6 @@
 # DUACS ADT 批量下载
 
-脚本：`F:\AAAzxz\SRTP_M\data_dl\download_adt.py`
+脚本：`F:\AAAzxz\SRTP_M\data_dl\dl_adt\download_adt.py`
 
 固定数据集为 `cmems_obs-sl_glo_phy-ssh_my_allsat-l4-duacs-0.125deg_P1D`，版本 `202411`，仅下载逐日 `adt`，每月 west/east 各一个 NetCDF。使用已经执行 `copernicusmarine login` 保存的本机凭据，无需将账号密码写入代码。
 
@@ -10,19 +10,19 @@
 
 ```powershell
 Set-Location 'F:\AAAzxz\SRTP_M\data_dl'
-& '.\.venv-data\Scripts\python.exe' '.\download_adt.py' --start 200501 --end 200501
+& '.\.venv-data\Scripts\python.exe' '.\dl_adt\download_adt.py' --start 200501 --end 200501
 ```
 
 成功后按年下载，例如 2005 年（已完成的 1 月会校验后跳过）：
 
 ```powershell
-& '.\.venv-data\Scripts\python.exe' '.\download_adt.py' --start 200501 --end 200512
+& '.\.venv-data\Scripts\python.exe' '.\dl_adt\download_adt.py' --start 200501 --end 200512
 ```
 
 也可以用一个进程按时间顺序下载整个项目范围：
 
 ```powershell
-& '.\.venv-data\Scripts\python.exe' '.\download_adt.py' --start 200411 --end 202506
+& '.\.venv-data\Scripts\python.exe' '.\dl_adt\download_adt.py' --start 200411 --end 202506
 ```
 
 共 248 个月、496 份文件。程序先完成 2005—2020 年训练侧，再经过 2020-12 隔离月，最后下载 2021 年以后的验证、测试数据；下载不涉及模型指标或拟合。
@@ -31,10 +31,10 @@ Set-Location 'F:\AAAzxz\SRTP_M\data_dl'
 
 ```powershell
 # 只列出计划，不联网或写入文件
-& '.\.venv-data\Scripts\python.exe' '.\download_adt.py' --start 200501 --end 200512 --plan
+& '.\.venv-data\Scripts\python.exe' '.\dl_adt\download_adt.py' --start 200501 --end 200512 --plan
 
 # 仅检查已经下载的文件；遇到缺失或不合格文件时停止
-& '.\.venv-data\Scripts\python.exe' '.\download_adt.py' --start 200411 --end 200412 --check-only
+& '.\.venv-data\Scripts\python.exe' '.\dl_adt\download_adt.py' --start 200411 --end 200412 --check-only
 ```
 
 ## 文件和断点重跑

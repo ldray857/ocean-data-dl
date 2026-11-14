@@ -7,7 +7,7 @@
 如果原下载任务仍在运行，就让它继续，不要重复启动。如果已经停止、退出或电脑已重启，可在 PowerShell 运行：
 
 ```powershell
-& 'F:\AAAzxz\SRTP_M\data_dl\.venv-data\Scripts\python.exe' 'F:\AAAzxz\SRTP_M\data_dl\download_oisst.py' --source google --fallback-source aws --start 201011 --end 202506
+& 'F:\AAAzxz\SRTP_M\data_dl\.venv-data\Scripts\python.exe' 'F:\AAAzxz\SRTP_M\data_dl\dl_oisst\download_oisst.py' --source google --fallback-source aws --start 201011 --end 202506
 ```
 
 - 此命令可重复使用：已有正式文件先校验再复用，只下载缺失日期；不完整的 `.nc.part` 会重新完整下载。
@@ -40,31 +40,31 @@ Set-Location 'F:\AAAzxz\SRTP_M\data_dl'
 查看全期计划（不联网、不写文件）：
 
 ```powershell
-& '.\.venv-data\Scripts\python.exe' '.\download_oisst.py' --source ncei --start 200411 --end 202506 --plan
+& '.\.venv-data\Scripts\python.exe' '.\dl_oisst\download_oisst.py' --source ncei --start 200411 --end 202506 --plan
 ```
 
 试下载第一个月（30 份，已有合格文件会复用）：
 
 ```powershell
-& '.\.venv-data\Scripts\python.exe' '.\download_oisst.py' --source ncei --start 200411 --end 200411
+& '.\.venv-data\Scripts\python.exe' '.\dl_oisst\download_oisst.py' --source ncei --start 200411 --end 200411
 ```
 
 原站全期下载示例（除首月外共 7,517 份，已有合格文件会复用）：
 
 ```powershell
-& '.\.venv-data\Scripts\python.exe' '.\download_oisst.py' --source ncei --start 200412 --end 202506
+& '.\.venv-data\Scripts\python.exe' '.\dl_oisst\download_oisst.py' --source ncei --start 200412 --end 202506
 ```
 
 也可以分年下载，例如：
 
 ```powershell
-& '.\.venv-data\Scripts\python.exe' '.\download_oisst.py' --source ncei --start 201101 --end 201112
+& '.\.venv-data\Scripts\python.exe' '.\dl_oisst\download_oisst.py' --source ncei --start 201904 --end 202506
 ```
 
 全期下载完成后，只校验、不下载：
 
 ```powershell
-& '.\.venv-data\Scripts\python.exe' '.\download_oisst.py' --start 200411 --end 202506 --check-only
+& '.\.venv-data\Scripts\python.exe' '.\dl_oisst\download_oisst.py' --start 200411 --end 202506 --check-only
 ```
 
 ## 运行与验收

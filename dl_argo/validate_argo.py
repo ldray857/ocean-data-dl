@@ -23,7 +23,7 @@ import h5netcdf
 import numpy as np
 from scipy.io import netcdf_file
 
-ROOT = Path(__file__).resolve().parent
+ROOT = Path(__file__).resolve().parents[1]
 INVENTORY = ROOT / "research/audits/argo_inventory_20261111_211915.csv"
 RAW = ROOT / "data/raw/argo"
 PARAMETERS = ("PRES", "TEMP", "PSAL")

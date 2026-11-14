@@ -10,7 +10,7 @@ from concurrent.futures import ThreadPoolExecutor
 from datetime import datetime
 from pathlib import Path, PurePosixPath
 
-BASE_DIR = Path(__file__).resolve().parent
+BASE_DIR = Path(__file__).resolve().parents[1]
 INVENTORY = BASE_DIR / "research/audits/argo_inventory_20261111_211915.csv"
 OUTPUT_DIR = BASE_DIR / "data/raw/argo"
 SOURCE = Path(r"D:\system\Downloads\aoml.tar.gz")

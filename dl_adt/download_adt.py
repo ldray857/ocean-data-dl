@@ -11,7 +11,7 @@ import copernicusmarine
 import numpy as np
 import xarray as xr
 
-BASE_DIR = Path(__file__).resolve().parent
+BASE_DIR = Path(__file__).resolve().parents[1]
 OUTPUT_DIR = BASE_DIR / "data" / "raw" / "adt"
 LEGACY_DIR = BASE_DIR / "data" / "raw" / "dat"
 DATASET_ID = "cmems_obs-sl_glo_phy-ssh_my_allsat-l4-duacs-0.125deg_P1D"
